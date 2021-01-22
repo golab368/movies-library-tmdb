@@ -5,7 +5,6 @@ from flask import request
 
 app = Flask(__name__, template_folder='template')
 
-
 @app.route('/')
 def homepage():
 
@@ -38,21 +37,11 @@ def movie_details(movie_id):
     cast = tmdb_client.get_single_movie_cast(movie_id)
     return render_template("movie_details.html", movie=details, ready_backdrop_path=ready_backdrop_path, cast=cast)
 
-
-"""We Flasku istnieje mechanizm zwany context processor, 
-Pozwala on na wstrzyknięcie do kontekstu każdego szablonu dodatkowych 
-danych lub obiektów, by nie robić tego za każdym razem w widoku.
-
-W Pythonie wszystko jest obiektem, 
-dlatego możemy również udostępnić w ten sposób funkcję."""
-
-
 @app.context_processor
 def utility_processor():
     def tmdb_image_url(path):
         return tmdb_client.get_poster_url(path)
     return {"tmdb_image_url": tmdb_image_url}
-
 
 if __name__ == '__main__':
     app.run(debug=True)
