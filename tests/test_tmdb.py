@@ -46,6 +46,6 @@ def test_homepage(monkeypatch, test_selected_list):
     monkeypatch.setattr("tmdb_client.call_tmdb_api", api_mock)
 
     with app.test_client() as client:
-        response = client.get('/')
+        response = client.get(f'/?list_type={test_selected_list}')
         assert response.status_code == 200
         api_mock.assert_called_with(f'movie/{test_selected_list}')
